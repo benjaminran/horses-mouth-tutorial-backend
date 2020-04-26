@@ -3,7 +3,6 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 from math import trunc
 import uuid
-import health
 
 
 class Topic:
@@ -137,4 +136,4 @@ def read_topic(id):
 
 @app.route('/health')
 def health_check():
-    return health.check()
+    return 'ok'
