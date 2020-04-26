@@ -70,15 +70,6 @@ load_dummy_data()
 def current_epoch_time():
     return trunc(datetime.utcnow().timestamp())
 
-def evict_topics():
-    global topics
-    before = len(topics)
-    topics = {id: topic for id, topic in topics.items() if topic.is_active()}
-    after = len(topics)
-    removed = before - after
-    app.logger.info('evicted {} topics'.format(after))
-    return removed
-
 @app.route('/')
 def home():
     return redirect(url_for('list_topics'))
@@ -95,22 +86,7 @@ def add_topic():
     """
     TODO: implement this method
     """
-    # return ''
-    payload = request.get_json(silent=True)
-    if payload is None:
-        return abort(400)
-    time = current_epoch_time()
-    new_topic = Topic(payload.get('name'),
-                      payload.get('description'),
-                      payload.get('sound'),
-                      time)
-    if len(topics) >= topic_limit:
-        if evict_topics() == 0:
-            raise Exception('too many active topics; could not register new topic')
-    topics[new_topic.id] = new_topic
-    return jsonify(status='ok',
-                   time=time,
-                   topic=new_topic.client_dto())
+    return 'todo'
 
 @app.route('/topics/<id>', methods=['PUT'])
 def record_event(id):
