@@ -34,12 +34,37 @@ class Topic:
             dto['events'] = [t for t in self.events]
         return dto
 
+def load_dummy_data():
+    global topics
+    time = trunc(datetime.utcnow().timestamp())
+    for topic in [
+        Topic(
+            'Arthur',
+            "For when you realize that everyday when you're walking down the street, everybody that you meet has an original point of view",
+            'https://www.myinstants.com/media/sounds/bazinga.swf.mp3',
+            time
+        ),
+        Topic(
+            'George!',
+            'You knew this was coming....',
+            'https://www.myinstants.com/media/sounds/joke_drum_effect.mp3',
+            time
+        ),
+        Topic(
+            'Dexter',
+            'No, not Dexter Gordon.',
+            'https://www.myinstants.com/media/sounds/surprise-motherfucker.mp3',
+            time
+        )]:
+        topics[topic.id] = topic
+
 topic_limit = 256
 event_memory = 5 # remember and return up to only the last 5 events in a topic
 
 app = Flask(__name__)
 CORS(app)
 topics = {} # topic.id: topic
+load_dummy_data()
 
 
 def current_epoch_time():
@@ -67,6 +92,10 @@ def list_topics():
 
 @app.route('/topics/', methods=['POST'])
 def add_topic():
+    """
+    TODO: implement this method
+    """
+    # return ''
     payload = request.get_json(silent=True)
     if payload is None:
         return abort(400)
